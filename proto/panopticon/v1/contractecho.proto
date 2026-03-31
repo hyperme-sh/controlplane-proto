@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package panopticon.v1;
+
+import "google/protobuf/timestamp.proto";
+// Unused at runtime except for protobuf generation; methods return requests unchanged.
+service ContractEcho {
+    rpc EchoListing (ListingWire) returns (ListingWire);
+    rpc EchoTokenUsage (TokenUsageWire) returns (TokenUsageWire);
+    rpc EchoUser (UserWire) returns (UserWire);
+}
+
+// Wire shape for :class:`panopticon_models.marketplace.Listing` (metadata as JSON text).
+message ListingWire {
+    string id = 1;
+    string tenant_id = 2;
+    string seller_id = 3;
+    string title = 4;
+    string description = 5;
+    string listing_type = 6;
+    string price_type = 7;
+    optional int32 price_amount = 8;
+    string metadata_json = 9;
+    optional string sku = 10;
+}
+
+// Wire shape for :class:`panopticon_models.ai_metering.TokenUsage` (cost as decimal string).
+message TokenUsageWire {
+    string user_id = 1;
+    string tenant_id = 2;
+    string model = 3;
+    int32 input_tokens = 4;
+    int32 output_tokens = 5;
+    string cost_usd = 6;
+    google.protobuf.Timestamp timestamp = 7;
+}
+
+// Wire shape for :class:`panopticon_models.user.SharedUser`.
+message UserWire {
+    string id = 1;
+    string email = 2;
+    string display_name = 3;
+    optional string tenant_id = 4;
+}
+
