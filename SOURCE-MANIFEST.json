@@ -1,0 +1,24 @@
+{
+  "source_revision": "2d92d13f38d491c298631b9b9296979c1fbadd19",
+  "runtime_changes": [],
+  "files": {
+    "src/contractecho_pb2.pyi": {
+      "original_path": "proto/panopticon/v1/contractecho_pb2.pyi",
+      "sha256": "82c194d86ce013df303e9c446e5574e5bc72b677b2ac6fc65a7e5f34a8a608fe"
+    },
+    "src/contractecho_pb2_grpc.py": {
+      "original_path": "proto/panopticon/v1/contractecho_pb2_grpc.py",
+      "sha256": "4746aba01df30761717f6cb1d06e29e93e57a049f6f4bc8b67a064652b43aac9"
+    },
+    "src/contractecho_pb2.py": {
+      "original_path": "proto/panopticon/v1/contractecho_pb2.py",
+      "sha256": "690e3ca17c76c767caa953ec6c2926f5555f58a38646c00559b476ac652ceffa"
+    }
+  },
+  "resource_files": {
+    "proto/panopticon/v1/contractecho.proto": {
+      "original_path": "proto/panopticon/v1/contractecho.proto",
+      "sha256": "8824a8e00ffbb260f4c80111ead8f0017fe45d5c01800bdc4fe1b1f13b2965e5"
+    }
+  }
+}

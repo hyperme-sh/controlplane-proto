@@ -1,19 +1,11 @@
 # controlplane-proto
 
-Private component extraction from `FyberLabs/panopticon`.
+Independent Python distribution for the retained `panopticon.v1` ContractEcho
+protocol and generated modules. Generated Python, typing stub and protocol bytes
+remain unchanged from source `2d92d13f38d491c298631b9b9296979c1fbadd19`.
 
-Source commit: `2d92d13f38d491c298631b9b9296979c1fbadd19`.
-
-Retained paths:
-
-- `proto`
-
-The import retains selected-path Git history and verifies every retained blob and
-file mode against that exact source. Rename predecessor paths are not followed.
-Source paths stay in their original layout for review. See `EXTRACTION.json`.
-
-This is a history import, not a standalone release or runtime cutover. Dependency
-closure, workspace/lock configuration, compatibility packages, contract snapshots,
-CI/runner eligibility and destination-specific credentials must be reviewed before
-adoption. Actions remain disabled. No credential, deployment ref or runtime is
-copied or switched; the original monorepo remains intact.
+Run `bash scripts/check.sh` for locked source checks and fresh-environment wheel
+checks. The wheel provides `contractecho_pb2`, `contractecho_pb2_grpc` and the
+original protocol source. No monorepo filesystem search is required by consumers.
+This is a private package preparation; no tag, public package or runtime cutover
+is published. Original source history is retained in `EXTRACTION.json`.
