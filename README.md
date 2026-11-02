@@ -1,24 +1,22 @@
 # controlplane-proto
 
-Independent Python distribution for the retained `panopticon.v1` ContractEcho
-protocol and generated modules. Generated Python, typing stub and protocol bytes
-remain unchanged from source `2d92d13f38d491c298631b9b9296979c1fbadd19`.
+Python distribution of the `panopticon.v1` ContractEcho protocol. The package
+provides `contractecho_pb2`, `contractecho_pb2_grpc`, a typing stub, and the
+`controlplane_proto_data/contractecho.proto` resource.
 
-Run `bash scripts/check.sh` for locked source checks and fresh-environment wheel
-checks. The wheel provides `contractecho_pb2`, `contractecho_pb2_grpc` and the
-original protocol source. No monorepo filesystem search is required by consumers.
-This is a private package preparation; no tag, public package or runtime cutover
-is published. Original source history is retained in `EXTRACTION.json`.
+## Development
 
-## Isolated component CI
+Requires Python 3.13+ and uv 0.11.26:
 
-Checks run on disposable GitHub-hosted Ubuntu workers for PRs, main and manual
-runs. This repository has no access to the organization self-hosted runner groups,
-so PR changes cannot select the shared private fleet. The contents token is
-read-only; checkout credentials are not persisted, and no environment/deployment
-secrets are provided. The external action allowlist contains only the two full-SHA checkout/uv setup
-actions. GitHub also permits local and organization-owned actions. No VM, runner or App is created.
+```sh
+bash scripts/check.sh
+```
 
-This is the user-authorized isolation correction for new component repositories.
-Existing private deployment and payment jobs retain their runner access. An
-isolated package check does not authorize publication or runtime cutover.
+The script uses locked dependencies, runs the protocol tests, builds a wheel and
+source distribution, and repeats tests in a fresh environment outside the checkout
+against the wheel and an sdist-rebuilt wheel. Both wheels must contain the exact
+runtime and resource files. Tests reject missing resources in installed wheels.
+
+CI runs the same checks on isolated GitHub-hosted Ubuntu workers for pull requests,
+main and manual runs, with read-only repository access and pinned actions.
+The checks do not publish packages or deploy services.
