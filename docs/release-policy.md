@@ -39,3 +39,17 @@ approvals, CODEOWNERS approval requirements, or release/deployment approval gate
 unless the user explicitly requests that specific change. This includes production
 releases. Automated tests and advisory reviews are welcome; human approval
 prerequisites are not. GitHub plan upgrades are not release-adoption prerequisites.
+
+## Artifact-backed baseline and candidate
+
+`releases/accepted` records the prior 0.2 protocol wheel from an immutable test
+release. Its provenance binds the successful main-push package run, live Actions
+artifact and identical published bytes. It is a component baseline, not a claim
+that the entire fleet has released on 0.24.
+
+The 0.24 candidate identifies the actual built wheel with a content-addressed
+`urn:sha256:` URI. Package CI rebuilds the wheel and rejects any mismatch in its
+version, digest or exported contract before retaining publishable bytes. The
+package publisher supplies the downloadable release location; the candidate does
+not invent a future publication URL. Stable publication also requires automated
+release admission. No human approval is part of this process.
