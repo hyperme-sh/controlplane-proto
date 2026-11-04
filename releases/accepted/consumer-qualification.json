@@ -1,0 +1,11 @@
+{
+  "scope": "local installed-wheel consumer qualification, not hosted/provider acceptance",
+  "line": "0.24",
+  "published_wheel_digests": {
+    "proto": "sha256:b5d18cf6b91ee6f34365ed00d9f02f0fb4eb69d69afc9338d4b301a6f88e5336",
+    "models": "sha256:7373dc89d95cccdb67e50e8e83965a6a0417547fe129118fd67194dc3b42e936"
+  },
+  "tests_passed": 33,
+  "loopback_rpc_tenant_presence_cases": 2,
+  "source_checkout_excluded": true
+}
