@@ -31,3 +31,9 @@ cmp "$check_tmp/contract/contract.json" "$check_tmp/rebuilt-contract/contract.js
 uv pip install --python "$check_tmp/venv/bin/python" --no-deps --reinstall "$check_tmp"/rebuilt/*.whl
 (cd "$check_tmp" && "$check_tmp/venv/bin/python" -I -m pytest -c /dev/null tests -q)
 (cd "$check_tmp" && "$check_tmp/venv/bin/python" -I "$root/scripts/verify_installed_contract.py" "$check_tmp/rebuilt-contract/contract.json")
+
+# Retain the exact validated bytes for the release channel; never rebuild them.
+if [[ -n "${RELEASE_ARTIFACT_DIR:-}" ]]; then
+  mkdir -p "$RELEASE_ARTIFACT_DIR"
+  cp "$check_tmp/dist"/* "$RELEASE_ARTIFACT_DIR/"
+fi
