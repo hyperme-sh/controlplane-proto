@@ -25,19 +25,19 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12\x63ontractecho.proto\x12\rpanopticon.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xea\x01\n\x0bListingWire\x12\n\n\x02id\x18\x01 \x01(\t\x12\x11\n\ttenant_id\x18\x02 \x01(\t\x12\x11\n\tseller_id\x18\x03 \x01(\t\x12\r\n\x05title\x18\x04 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x14\n\x0clisting_type\x18\x06 \x01(\t\x12\x12\n\nprice_type\x18\x07 \x01(\t\x12\x19\n\x0cprice_amount\x18\x08 \x01(\x05H\x00\x88\x01\x01\x12\x15\n\rmetadata_json\x18\t \x01(\t\x12\x10\n\x03sku\x18\n \x01(\tH\x01\x88\x01\x01\x42\x0f\n\r_price_amountB\x06\n\x04_sku\"\xb1\x01\n\x0eTokenUsageWire\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\ttenant_id\x18\x02 \x01(\t\x12\r\n\x05model\x18\x03 \x01(\t\x12\x14\n\x0cinput_tokens\x18\x04 \x01(\x05\x12\x15\n\routput_tokens\x18\x05 \x01(\x05\x12\x10\n\x08\x63ost_usd\x18\x06 \x01(\t\x12-\n\ttimestamp\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"a\n\x08UserWire\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x14\n\x0c\x64isplay_name\x18\x03 \x01(\t\x12\x16\n\ttenant_id\x18\x04 \x01(\tH\x00\x88\x01\x01\x42\x0c\n\n_tenant_id2\xe3\x01\n\x0c\x43ontractEcho\x12\x45\n\x0b\x45\x63hoListing\x12\x1a.panopticon.v1.ListingWire\x1a\x1a.panopticon.v1.ListingWire\x12N\n\x0e\x45\x63hoTokenUsage\x12\x1d.panopticon.v1.TokenUsageWire\x1a\x1d.panopticon.v1.TokenUsageWire\x12<\n\x08\x45\x63hoUser\x12\x17.panopticon.v1.UserWire\x1a\x17.panopticon.v1.UserWireb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12\x63ontractecho.proto\x12\x0espanopticon.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xea\x01\n\x0bListingWire\x12\n\n\x02id\x18\x01 \x01(\t\x12\x11\n\ttenant_id\x18\x02 \x01(\t\x12\x11\n\tseller_id\x18\x03 \x01(\t\x12\r\n\x05title\x18\x04 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x14\n\x0clisting_type\x18\x06 \x01(\t\x12\x12\n\nprice_type\x18\x07 \x01(\t\x12\x19\n\x0cprice_amount\x18\x08 \x01(\x05H\x00\x88\x01\x01\x12\x15\n\rmetadata_json\x18\t \x01(\t\x12\x10\n\x03sku\x18\n \x01(\tH\x01\x88\x01\x01\x42\x0f\n\r_price_amountB\x06\n\x04_sku\"\xb1\x01\n\x0eTokenUsageWire\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\ttenant_id\x18\x02 \x01(\t\x12\r\n\x05model\x18\x03 \x01(\t\x12\x14\n\x0cinput_tokens\x18\x04 \x01(\x05\x12\x15\n\routput_tokens\x18\x05 \x01(\x05\x12\x10\n\x08\x63ost_usd\x18\x06 \x01(\t\x12-\n\ttimestamp\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"a\n\x08UserWire\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x14\n\x0c\x64isplay_name\x18\x03 \x01(\t\x12\x16\n\ttenant_id\x18\x04 \x01(\tH\x00\x88\x01\x01\x42\x0c\n\n_tenant_id2\xe9\x01\n\x0c\x43ontractEcho\x12G\n\x0b\x45\x63hoListing\x12\x1b.spanopticon.v1.ListingWire\x1a\x1b.spanopticon.v1.ListingWire\x12P\n\x0e\x45\x63hoTokenUsage\x12\x1e.spanopticon.v1.TokenUsageWire\x1a\x1e.spanopticon.v1.TokenUsageWire\x12>\n\x08\x45\x63hoUser\x12\x18.spanopticon.v1.UserWire\x1a\x18.spanopticon.v1.UserWireb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'contractecho_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_LISTINGWIRE']._serialized_start=71
-  _globals['_LISTINGWIRE']._serialized_end=305
-  _globals['_TOKENUSAGEWIRE']._serialized_start=308
-  _globals['_TOKENUSAGEWIRE']._serialized_end=485
-  _globals['_USERWIRE']._serialized_start=487
-  _globals['_USERWIRE']._serialized_end=584
-  _globals['_CONTRACTECHO']._serialized_start=587
-  _globals['_CONTRACTECHO']._serialized_end=814
+  _globals['_LISTINGWIRE']._serialized_start=72
+  _globals['_LISTINGWIRE']._serialized_end=306
+  _globals['_TOKENUSAGEWIRE']._serialized_start=309
+  _globals['_TOKENUSAGEWIRE']._serialized_end=486
+  _globals['_USERWIRE']._serialized_start=488
+  _globals['_USERWIRE']._serialized_end=585
+  _globals['_CONTRACTECHO']._serialized_start=588
+  _globals['_CONTRACTECHO']._serialized_end=821
 # @@protoc_insertion_point(module_scope)

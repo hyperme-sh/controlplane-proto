@@ -1,6 +1,6 @@
 # controlplane-proto
 
-Python distribution of the `panopticon.v1` ContractEcho protocol. The package
+Python distribution of the `spanopticon.v1` ContractEcho protocol. The package
 provides `contractecho_pb2`, `contractecho_pb2_grpc`, a typing stub, and the
 `controlplane_proto_data/contractecho.proto` resource.
 
