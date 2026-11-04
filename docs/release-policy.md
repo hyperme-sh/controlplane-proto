@@ -42,7 +42,7 @@ prerequisites are not. GitHub plan upgrades are not release-adoption prerequisit
 
 ## Artifact-backed baseline and candidate
 
-`releases/accepted` records the prior 0.2 protocol wheel from an immutable test
+`releases/accepted` records the accepted 0.24 protocol wheel from an immutable test
 release. Its provenance binds the successful main-push package run, live Actions
 artifact and identical published bytes. It is a component baseline, not a claim
 that the entire fleet has released on 0.24.

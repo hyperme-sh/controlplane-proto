@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "line": "0.2",
+  "line": "0.24",
   "components": {
     "controlplane-proto": {
-      "version": "0.2.0",
+      "version": "0.24.0",
       "contract": "contract.json",
       "contract_sha256": "d29d873261ff074802b82e14710f0ee14b96f10109ef1924df3cebd0b5c1a31e",
       "artifact": {
         "kind": "package",
-        "uri": "https://github.com/hyperme-sh/controlplane-proto/releases/download/test-4e814eb6e5aeabe9870e9d577618cb0fdea2230f/controlplane_proto-0.2.0-py3-none-any.whl",
-        "sha256": "44d526b4cd0a0e12c3dcfc230a48003d2ef16f0fe207e0c0f58b12e908c53ff2"
+        "uri": "urn:sha256:b5d18cf6b91ee6f34365ed00d9f02f0fb4eb69d69afc9338d4b301a6f88e5336",
+        "sha256": "b5d18cf6b91ee6f34365ed00d9f02f0fb4eb69d69afc9338d4b301a6f88e5336"
       }
     }
   }
