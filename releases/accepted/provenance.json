@@ -1,0 +1,20 @@
+{
+  "repository": "hyperme-sh/controlplane-proto",
+  "revision": "4e814eb6e5aeabe9870e9d577618cb0fdea2230f",
+  "release_id": 434577376,
+  "immutable": true,
+  "tag": "test-4e814eb6e5aeabe9870e9d577618cb0fdea2230f",
+  "run_id": 41933618996,
+  "artifact_id": 13372408346,
+  "assets": {
+    "controlplane_proto-0.2.0-py3-none-any.whl": "sha256:44d526b4cd0a0e12c3dcfc230a48003d2ef16f0fe207e0c0f58b12e908c53ff2",
+    "controlplane_proto-0.2.0.tar.gz": "sha256:520d2a021570cf73fbad3b260dec997f3f42d9495fe0e794e224e60297c24d74"
+  },
+  "checks": [
+    "successful same-repository main-push package run",
+    "live Actions artifact digest",
+    "release bytes equal tested bytes",
+    "immutable release and tag revision",
+    "asset digests equal manifest"
+  ]
+}
