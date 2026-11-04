@@ -6,7 +6,7 @@ import contractecho_pb2 as pb
 import contractecho_pb2_grpc
 
 def test_published_descriptor_and_roundtrip():
-    assert pb.DESCRIPTOR.package == "panopticon.v1"
+    assert pb.DESCRIPTOR.package == "spanopticon.v1"
     assert set(pb.DESCRIPTOR.services_by_name) == {"ContractEcho"}
     original = pb.UserWire(id="u", email="u@example.com", display_name="User")
     restored = pb.UserWire.FromString(original.SerializeToString())
@@ -21,10 +21,10 @@ def test_protocol_source_is_shipped():
     # Editable source checks validate the original file; wheel checks require the packaged resource.
     metadata = json.loads(distribution.read_text("direct_url.json") or "{}")
     if metadata.get("dir_info", {}).get("editable") is True and not paths:
-        assert (Path(__file__).resolve().parents[1]/"proto/panopticon/v1/contractecho.proto").is_file()
+        assert (Path(__file__).resolve().parents[1]/"proto/spanopticon/v1/contractecho.proto").is_file()
     else:
         assert len(paths)==1
-        assert 'package panopticon.v1;' in paths[0].locate().read_text()
+        assert 'package spanopticon.v1;' in paths[0].locate().read_text()
 
 
 @pytest.mark.parametrize("metadata", [

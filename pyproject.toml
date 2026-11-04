@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "controlplane-proto"
-version = "0.1.0"
+version = "0.2.0"
 requires-python = ">=3.13"
 dependencies = ["protobuf>=6.33.6", "grpcio>=1.80.0"]
 
@@ -13,7 +13,7 @@ only-include = ["src/contractecho_pb2.py", "src/contractecho_pb2.pyi", "src/cont
 sources = ["src"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"proto/panopticon/v1/contractecho.proto" = "controlplane_proto_data/contractecho.proto"
+"proto/spanopticon/v1/contractecho.proto" = "controlplane_proto_data/contractecho.proto"
 
 [dependency-groups]
 dev = ["pytest>=8.4.0"]

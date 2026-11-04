@@ -1,7 +1,7 @@
 # Buf module root: run `buf dep update` then `buf lint` from this directory.
 # Requires: https://buf.build/docs/installation
 version: v1
-name: buf.build/local/panopticon
+name: buf.build/local/spanopticon
 deps:
   - buf.build/googleapis/googleapis
 breaking:
