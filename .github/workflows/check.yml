@@ -13,7 +13,7 @@ jobs:
   package:
     # Disposable hosted workers have no route into the shared private runner fleet.
     if: github.event.repository.private == true
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, linux, x64, debrunner]
     timeout-minutes: 15
     steps:
       - name: Prepare release output
