@@ -62,3 +62,7 @@ organization policy may shorten it). Expired evidence fails closed: validate a
 new main revision. The publisher verifies the run, source, workflow and artifact
 digest independently of release metadata. Repository immutable releases must be
 enabled. See the [shared release contract](https://github.com/hyperme-sh/.github/blob/7749591fccd30d46ba9b0adabe82114001c9d0de/actions/release-channel/README.md).
+
+Licensed under Apache-2.0; the license is included in wheels and source archives.
+Development snapshot evidence lives under `releases/qualification`; test
+prereleases do not establish a stable baseline or reserve a version.
