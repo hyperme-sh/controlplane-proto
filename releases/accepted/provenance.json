@@ -1,22 +1,14 @@
 {
+  "schema_version": 1,
   "repository": "hyperme-sh/controlplane-proto",
-  "revision": "5b0016e379e13dfc0cd959b2d62c5cb75c6b71f1",
-  "release_id": 434591454,
-  "immutable": true,
-  "tag": "test-5b0016e379e13dfc0cd959b2d62c5cb75c6b71f1",
-  "run_id": 41935862511,
-  "artifact_id": 13372614362,
+  "tag": "v0.24.0",
+  "revision": "8b61891438390a44c721370653d51021adefcbdb",
+  "release_id": 434678557,
   "assets": {
     "controlplane_proto-0.24.0-py3-none-any.whl": "sha256:b5d18cf6b91ee6f34365ed00d9f02f0fb4eb69d69afc9338d4b301a6f88e5336",
-    "controlplane_proto-0.24.0.tar.gz": "sha256:b1108be82211720bceff52025b7d7d4cdfd867e9ee113c7b6a69fcf135bec1df"
+    "controlplane_proto-0.24.0.tar.gz": "sha256:1576a00801afcbcbf3fc026a768c234d6a73b7454cb860e90e4dce85e423e5dd",
+    "release-manifest.json": "sha256:6c59b85b3a45a3b0136e7735933dfab4b120c6d124a3778fa4da3dbda4f5fce1"
   },
-  "checks": [
-    "successful same-repository main-push package run",
-    "live Actions artifact digest",
-    "release bytes equal tested bytes",
-    "immutable release and tag revision",
-    "asset digests equal manifest"
-  ],
-  "published_release_url": "https://github.com/hyperme-sh/controlplane-proto/releases/tag/test-5b0016e379e13dfc0cd959b2d62c5cb75c6b71f1",
-  "consumer_qualification": "33 tests passed against exact published models/protocol 0.24 wheels in isolated interpreter, including tenant presence/absence loopback RPC"
+  "published_release_url": "https://github.com/hyperme-sh/controlplane-proto/releases/tag/v0.24.0",
+  "qualification": "Existing immutable stable distribution; runtime deployment and coordinated consumer acceptance remain separate."
 }
