@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "publication_authorized": false,
+  "versions": {
+    "pyproject.toml": "0.2.0"
+  },
+  "restorations": [
+    {
+      "repo": "controlplane-proto",
+      "path": "pyproject.toml",
+      "name": "controlplane-proto",
+      "version": "0.24.0",
+      "restore": {
+        "version": "0.2.0",
+        "commit": "4ce51c3492d1f7d7c85fb8322f7eefda059209f2"
+      }
+    }
+  ]
+}
