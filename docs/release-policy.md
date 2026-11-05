@@ -53,3 +53,12 @@ version, digest or exported contract before retaining publishable bytes. The
 package publisher supplies the downloadable release location; the candidate does
 not invent a future publication URL. Stable publication also requires automated
 release admission. No human approval is part of this process.
+
+### Actions qualification and stable publication
+
+Main merges and workflow completion do not publish GitHub test releases. Exact
+qualification files remain in Actions artifacts with finite retention. The pinned
+publisher independently verifies a real immutable stable baseline and refuses
+qualification snapshots, even if a caller job reports success. Existing valid
+stable records are retained; no release, version change, deployment or human
+approval prerequisite is introduced by this correction.
