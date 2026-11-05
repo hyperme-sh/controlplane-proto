@@ -86,3 +86,7 @@ The accepted record binds the existing immutable `v0.24.0` release to its actual
 GitHub release ID, source revision and published asset digests. Test snapshots
 remain under `releases/qualification` and do not establish stable acceptance.
 Runtime deployment and coordinated consumer acceptance remain separate.
+
+Licensed under Apache-2.0; the license is included in wheels and source archives.
+Development snapshot evidence lives under `releases/qualification`; test
+prereleases do not establish a stable baseline or reserve a version.
