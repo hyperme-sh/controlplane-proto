@@ -1,0 +1,203 @@
+{
+  "coverage": "conservative complete packaged runtime and protocol resources",
+  "packaged_file_sha256": {
+    "contractecho_pb2.py": "0660e8bda720bababf838dd2d8247ea870745fc87b1207e254aa4fe1372ed9f0",
+    "contractecho_pb2.pyi": "82c194d86ce013df303e9c446e5574e5bc72b677b2ac6fc65a7e5f34a8a608fe",
+    "contractecho_pb2_grpc.py": "d8beacfbe7df3ac0f8ec54064f7ce9aceb920aaa9f7f5fdd9eb298e30dedf13b",
+    "controlplane_proto_data/contractecho.proto": "2eedee0d38ab3ff3e1025c8fca2a2d831ff3c5897d2fe390294198ed5764c71a"
+  },
+  "protobuf_file_descriptor": {
+    "dependency": [
+      "google/protobuf/timestamp.proto"
+    ],
+    "message_type": [
+      {
+        "field": [
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "id",
+            "number": 1,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "tenant_id",
+            "number": 2,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "seller_id",
+            "number": 3,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "title",
+            "number": 4,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "description",
+            "number": 5,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "listing_type",
+            "number": 6,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "price_type",
+            "number": 7,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "price_amount",
+            "number": 8,
+            "oneof_index": 0,
+            "proto3_optional": true,
+            "type": "TYPE_INT32"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "metadata_json",
+            "number": 9,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "sku",
+            "number": 10,
+            "oneof_index": 1,
+            "proto3_optional": true,
+            "type": "TYPE_STRING"
+          }
+        ],
+        "name": "ListingWire",
+        "oneof_decl": [
+          {
+            "name": "_price_amount"
+          },
+          {
+            "name": "_sku"
+          }
+        ]
+      },
+      {
+        "field": [
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "user_id",
+            "number": 1,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "tenant_id",
+            "number": 2,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "model",
+            "number": 3,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "input_tokens",
+            "number": 4,
+            "type": "TYPE_INT32"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "output_tokens",
+            "number": 5,
+            "type": "TYPE_INT32"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "cost_usd",
+            "number": 6,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "timestamp",
+            "number": 7,
+            "type": "TYPE_MESSAGE",
+            "type_name": ".google.protobuf.Timestamp"
+          }
+        ],
+        "name": "TokenUsageWire"
+      },
+      {
+        "field": [
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "id",
+            "number": 1,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "email",
+            "number": 2,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "display_name",
+            "number": 3,
+            "type": "TYPE_STRING"
+          },
+          {
+            "label": "LABEL_OPTIONAL",
+            "name": "tenant_id",
+            "number": 4,
+            "oneof_index": 0,
+            "proto3_optional": true,
+            "type": "TYPE_STRING"
+          }
+        ],
+        "name": "UserWire",
+        "oneof_decl": [
+          {
+            "name": "_tenant_id"
+          }
+        ]
+      }
+    ],
+    "name": "contractecho.proto",
+    "package": "spanopticon.v1",
+    "service": [
+      {
+        "method": [
+          {
+            "input_type": ".spanopticon.v1.ListingWire",
+            "name": "EchoListing",
+            "output_type": ".spanopticon.v1.ListingWire"
+          },
+          {
+            "input_type": ".spanopticon.v1.TokenUsageWire",
+            "name": "EchoTokenUsage",
+            "output_type": ".spanopticon.v1.TokenUsageWire"
+          },
+          {
+            "input_type": ".spanopticon.v1.UserWire",
+            "name": "EchoUser",
+            "output_type": ".spanopticon.v1.UserWire"
+          }
+        ],
+        "name": "ContractEcho"
+      }
+    ],
+    "syntax": "proto3"
+  },
+  "schema_version": 1
+}
