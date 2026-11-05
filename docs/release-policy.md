@@ -1,15 +1,20 @@
 # Release compatibility
 
-This component targets the shared **0.24.x** release line. Components share major
-and minor versions; patch numbers advance independently and must preserve their
-accepted API contracts. Existing package versions are retained until a qualified
-release is prepared; installing this workflow does not qualify those versions.
-
-`release-policy.json` identifies the owner and every owning package version file.
-The pinned Spanopticon workflow checks this configuration on pull requests.
+`release-policy.json` names this repository, component `controlplane-proto`,
+line `0.2`, and the package version file `pyproject.toml` (currently `0.2.0`).
+The pinned Spanopticon workflow checks that configuration on pull requests.
 Version changes or a `releases/candidate/release.json` submission also require
 release admission. Every tag push and manual release request requires admission.
-A configuration-only result is not a release compatibility result.
+A configuration-only check is a configuration result. Release compatibility is
+the admission result.
+
+Components that share a release line share major and minor versions. Patch
+numbers advance independently and keep their accepted API contracts. Installing
+this workflow leaves recorded package versions as they are.
+
+The accepted stable record under `releases/accepted/` is line `0.24`, package
+`0.24.0`, tag `v0.24.0`. Tags, test bundles, and that record are documented in
+[releasing.md](releasing.md).
 
 Before attempting a release:
 
@@ -19,70 +24,33 @@ Before attempting a release:
    baseline needs automated artifact/consumer qualification and provenance;
    examples and invented digests are not accepted release evidence.
 2. Generate the candidate bundle at `releases/candidate/release.json` from the
-   release artifacts. It must contain exactly this component, use line `0.24`,
-   and match every declared owning package version and the requested tag/version.
+   release artifacts. It must contain exactly this component, use the line from
+   `release-policy.json` (`0.2`), and match every declared package version and
+   the requested tag.
 3. Run admission against the trusted baseline. Patch contracts must remain
    unchanged; changing a published artifact at the same version is rejected.
    Verify artifact provenance and downstream consumer behavior separately.
 4. Make successful admission and artifact/consumer validation automated
    prerequisites of the publisher for the exact release. Select the accepted
    baseline independently of candidate data and retain the validation evidence.
-   This is pipeline validation, not a branch protection or human approval rule.
+   Admission compares the candidate with the trusted baseline inside the pipeline.
 
-Missing baselines fail closed. This workflow neither publishes nor deploys and
+Missing baselines stop admission. This workflow neither publishes nor deploys and
 does not enable repository Actions, grant private dependency access, or prove
 that a declared artifact exists. See the [Spanopticon release policy](https://github.com/hyperme-sh/spanopticon/blob/main/docs/releases.md)
 for the manifest format and compatibility rules.
 
-Do not add required reviewers, branch protections, approval rulesets, environment
-approvals, CODEOWNERS approval requirements, or release/deployment approval gates
-unless the user explicitly requests that specific change. This includes production
-releases. Automated tests and advisory reviews are welcome; human approval
-prerequisites are not. GitHub plan upgrades are not release-adoption prerequisites.
-
 ## Artifact-backed baseline and candidate
 
-`releases/accepted` records the accepted 0.24 protocol wheel from an immutable test
-release. Its provenance binds the successful main-push package run, live Actions
-artifact and identical published bytes. It is a component baseline, not a claim
-that the entire fleet has released on 0.24.
+`releases/accepted` records the `0.24.0` protocol wheel for tag `v0.24.0`.
+`provenance.json` binds that record to the source revision, the GitHub release
+id, and the published asset digests. It is the component baseline for this
+package.
 
-The 0.24 candidate identifies the actual built wheel with a content-addressed
-`urn:sha256:` URI. Package CI rebuilds the wheel and rejects any mismatch in its
-version, digest or exported contract before retaining publishable bytes. The
-package publisher supplies the downloadable release location; the candidate does
-not invent a future publication URL. Stable publication also requires automated
-release admission. No human approval is part of this process.
-
-### Actions qualification and stable publication
-
-Main merges and workflow completion do not publish GitHub test releases. Exact
-qualification files remain in Actions artifacts with finite retention. The pinned
-publisher independently verifies a real immutable stable baseline and refuses
-qualification snapshots, even if a caller job reports success. Existing valid
-stable records are retained; no release, version change, deployment or human
-approval prerequisite is introduced by this correction.
-
-## Test qualification and stable acceptance
-
-GitHub `test-<commit>` prereleases are development snapshots. Their embedded
-package version does not reserve a stable version. Artifact and consumer evidence
-lives under `releases/qualification`; the current wheel binding is still checked
-by package CI, alongside any future explicit stable candidate. Earlier test
-snapshot receipts are preserved there with an explicit non-stable classification.
-
-`releases/accepted` and `SPANOPTICON_RELEASE_BASELINE_SHA` are reserved for an
-actual immutable stable GitHub release. The pinned shared guard verifies the live
-release channel, stable tag source and asset digests; a test snapshot cannot
-become accepted through a provenance label. No stable baseline is recorded until
-that release exists. Stable publication remains closed without a valid baseline;
-first stable bootstrap and coordinated release qualification remain separate.
-No stable version, approval prerequisite or deployment is introduced here.
-
-
-### Published stable distribution
-
-The accepted record binds the existing immutable `v0.24.0` release to its actual
-GitHub release ID, source revision and published asset digests. Test snapshots
-remain under `releases/qualification` and do not establish stable acceptance.
-Runtime deployment and coordinated consumer acceptance remain separate.
+A candidate names the built wheel with a content-addressed `urn:sha256:` URI.
+Package CI rebuilds the wheel and rejects any mismatch in its version, digest,
+or exported contract before retaining publishable bytes. Stable publication
+also requires automated release admission. The downloadable release URL is
+supplied when that publication runs. Channel behavior for Actions artifacts,
+`test-<commit>` snapshots, the `v0.24.0` release, and `0.24.0-test.N` bundles
+is documented in [releasing.md](releasing.md).

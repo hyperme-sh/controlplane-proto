@@ -1,126 +1,206 @@
 # controlplane-proto
 
-## Current version authority
+Python package for the `spanopticon.v1` ContractEcho protocol buffers. Version
+**0.2.0** in this tree installs `contractecho_pb2`, `contractecho_pb2_grpc`, the
+`contractecho_pb2.pyi` typing stub, and the
+`controlplane_proto_data/contractecho.proto` resource. It targets Python 3.13+
+and depends on `protobuf>=6.33.6` and `grpcio>=1.80.0`.
 
-Current development version: `0.2.0`. The services remain before the unreleased
-0.24.0 milestone. Earlier 0.24/1.0 preparation and publication notes below are
-historical and do not authorize those versions. Existing tags and historical
-artifacts remain untouched. Development uses exact source pins and rebuilt
-artifacts; no prior release is required. Version changes, tags and publication
-require the owner's explicit authorization to the agent.
+## Why
 
-Python distribution of the `spanopticon.v1` ContractEcho protocol. The package
-provides `contractecho_pb2`, `contractecho_pb2_grpc`, a typing stub, and the
-`controlplane_proto_data/contractecho.proto` resource.
+Hypermesh control-plane services hand each other three records on a lease: the
+marketplace listing a host offers, the token-usage row that meters a renter's
+model call, and the shared user those records point at. Those shapes live as
+Python models in Spanopticon (`Listing`, `TokenUsage`, `SharedUser`). This
+package is the protobuf encoding of those three records, so callers
+serialize one shared descriptor.
 
-## Development
+## How it works
 
-Requires Python 3.13+ and uv 0.11.26:
+The schema is `proto/spanopticon/v1/contractecho.proto`, package
+`spanopticon.v1`. `ContractEcho` has three unary RPCs. Each one takes a message
+and returns that same message: `EchoListing`, `EchoTokenUsage`, and `EchoUser`.
+The schema comment describes them as identity echoes kept so code generation
+emits a descriptor and stubs for the messages. Callers use the message types.
+
+| Message | Model it encodes | What the bytes carry |
+| --- | --- | --- |
+| `ListingWire` | `spanopticon_models.marketplace.Listing` | Listing id, tenant, seller (the host), title, description, listing type, price type, optional integer price amount, optional SKU, and metadata as a JSON string |
+| `TokenUsageWire` | `spanopticon_models.ai_metering.TokenUsage` | User, tenant, model name, input and output token counts, cost as a decimal string, and a `google.protobuf.Timestamp` |
+| `UserWire` | `spanopticon_models.user.SharedUser` | User id, email, display name, and an optional tenant id |
+
+Generated sources are checked in under `src/` and mapped to the wheel root.
+The wheel also force-includes the `.proto` at
+`controlplane_proto_data/contractecho.proto`. `proto/buf.yaml` is a Buf module
+(`buf.build/local/spanopticon`) with the Google common protos, `DEFAULT` lint,
+and `FILE` breaking checks.
+
+RPC paths:
+
+- `/spanopticon.v1.ContractEcho/EchoListing`
+- `/spanopticon.v1.ContractEcho/EchoTokenUsage`
+- `/spanopticon.v1.ContractEcho/EchoUser`
+
+## Practical use
+
+The package is not on PyPI. Install from a checkout of this repository, or from
+a wheel attached to a GitHub release.
+
+Development checkout (package **0.2.0**). Requires Python 3.13+ and
+[uv](https://docs.astral.sh/uv/) 0.11.26:
+
+```sh
+git clone https://github.com/hyperme-sh/controlplane-proto.git
+cd controlplane-proto
+uv sync --frozen
+```
+
+Stable release wheel (package **0.24.0**, tag `v0.24.0`):
+
+```sh
+python3.13 -m venv .venv
+. .venv/bin/activate
+pip install \
+  "https://github.com/hyperme-sh/controlplane-proto/releases/download/v0.24.0/controlplane_proto-0.24.0-py3-none-any.whl"
+```
+
+`pip` reads `Requires-Dist` from the wheel and installs `protobuf` and `grpcio`.
+Import the generated modules and serialize the messages:
+
+```python
+from datetime import datetime, timezone
+
+import contractecho_pb2 as pb
+
+listing = pb.ListingWire(
+    id="listing-1",
+    tenant_id="tenant-1",
+    seller_id="host-1",
+    title="One GPU hour",
+    description="Capacity offered by a host",
+    listing_type="gpu_hour",
+    price_type="fixed",
+    price_amount=250,
+    metadata_json='{"gpu":"example"}',
+    sku="gpu-1h",
+)
+raw = listing.SerializeToString()
+assert pb.ListingWire.FromString(raw) == listing
+
+usage = pb.TokenUsageWire(
+    user_id="user-1",
+    tenant_id="tenant-1",
+    model="example-model",
+    input_tokens=128,
+    output_tokens=64,
+    cost_usd="0.0123",
+)
+usage.timestamp.FromDatetime(datetime.now(timezone.utc))
+assert pb.TokenUsageWire.FromString(usage.SerializeToString()) == usage
+
+user = pb.UserWire(id="user-1", email="user@example.com", display_name="User")
+assert not user.HasField("tenant_id")
+user.tenant_id = "tenant-1"
+assert pb.UserWire.FromString(user.SerializeToString()).HasField("tenant_id")
+```
+
+`listing_type`, `price_type`, and `metadata_json` are caller-defined strings.
+`cost_usd` is a decimal string such as `"0.0123"`.
+
+The installed distribution also ships the schema. From a non-editable install:
+
+```python
+import importlib.metadata
+
+dist = importlib.metadata.distribution("controlplane-proto")
+proto = next(
+    path for path in dist.files
+    if str(path).endswith("controlplane_proto_data/contractecho.proto")
+)
+text = proto.locate().read_text()
+assert "package spanopticon.v1;" in text
+```
+
+`contractecho_pb2_grpc` provides `ContractEchoStub` and `ContractEchoServicer`
+for the three echo methods. The generated servicer methods are unimplemented
+until a process fills them in. An identity implementation returns the request
+object.
+
+## How Hypermesh uses it
+
+Hypermesh renters take capacity that hosts offer. The control plane is the
+service path for that lease: it records the host's marketplace listing, the
+renter's identity, and the metered model use that follows.
+
+This package is the Python wire format for those three records.
+
+- A host offer is a `ListingWire`. `seller_id` is the host, `tenant_id` is the
+  tenant the listing belongs to, and `price_amount` plus `price_type` are the
+  offer. `metadata_json` carries the extra listing document as JSON text.
+- A renter account on that listing is a `UserWire` (`id`, `email`,
+  `display_name`, optional `tenant_id`).
+- Metered model traffic after the lease is a `TokenUsageWire`: which user and
+  tenant, which model, input and output token counts, and `cost_usd`.
+
+Control-plane Python code that uses the Spanopticon model classes imports
+`contractecho_pb2` and exchanges those serialized bytes. `ContractEcho` stays
+in the schema so the descriptor, the stubs, and the packaged `.proto` all name
+the same three messages.
+
+## Develop and test
+
+From a checkout, with Python 3.13+ and uv 0.11.26:
 
 ```sh
 bash scripts/check.sh
 ```
 
-The script uses locked dependencies, runs the protocol tests, builds a wheel and
-source distribution, and repeats tests in a fresh environment outside the checkout
-against the wheel and an sdist-rebuilt wheel. Both wheels must contain the exact
-runtime and resource files. Tests reject missing resources in installed wheels.
+The script syncs the locked environment, runs `tests/` and `tests_tools/`,
+builds a wheel and a source distribution, and repeats the protocol tests in a
+fresh environment outside the checkout against that wheel and against a wheel
+rebuilt from the sdist. Both wheels must contain the same runtime modules and
+the packaged `.proto`. Installed wheels without that resource fail the test.
 
-CI runs the same checks on isolated GitHub-hosted Ubuntu workers for pull requests,
-main and manual runs, with read-only repository access and pinned actions.
-The checks do not publish packages or deploy services.
-
-## Artifact contract evidence
-
-After building a wheel, inspect its exact bytes without importing its code:
+Optional schema lint, from `proto/` after `buf dep update`:
 
 ```sh
-uv run --frozen python scripts/export_release_contract.py dist/controlplane_proto-0.2.0-py3-none-any.whl --output /tmp/proto-contract
+buf lint
 ```
 
-Use the actual wheel filename and a new output directory. `contract.json` contains
-the serialized protobuf descriptor as readable JSON and SHA-256 hashes of every
-packaged runtime/resource file. Unknown, missing or duplicate entries are rejected
-so added public surfaces cannot silently disappear from coverage. `evidence.json`
-binds the contract to the wheel digest and owning package version. The exporter
-reads the descriptor literal through Python's AST; it never executes wheel code.
+To dump the contract of a built wheel without importing it:
 
-This is intentionally conservative: even generated-code or resource formatting
-changes alter the contract. Package version metadata alone does not. The package
-check exports both the original wheel and the sdist-rebuilt wheel and requires
-identical contract snapshots, alongside the existing installed-wheel tests.
-Each fresh installation must also match every captured file digest and the
-descriptor exported from the wheel.
+```sh
+uv build --no-sources --out-dir dist
+uv run --frozen python scripts/export_release_contract.py \
+  dist/controlplane_proto-0.2.0-py3-none-any.whl \
+  --output /tmp/proto-contract
+```
 
-Artifact inspection does not establish publisher provenance, semantic equivalence
-of generated code and protocol source, consumer compatibility, or an accepted
-release baseline. Keep those qualification steps separate. These outputs contain
-no acceptance flag or fabricated publication URI, and are not automatically
-installed as a release baseline.
-## Release channels
+Use the wheel filename you actually built and a new output directory.
+`contract.json` is the serialized file descriptor as JSON plus the SHA-256 of
+every packaged runtime and resource file. `evidence.json` binds that contract
+to the wheel digest and the package version. The exporter reads the descriptor
+literal from the generated file's syntax tree. Unknown, missing, or duplicate
+wheel entries are rejected. What that snapshot qualifies is described in
+[docs/releasing.md](docs/releasing.md).
 
-Main validation retains its exact qualified files in Actions artifacts. It does
-not create GitHub releases or tags. Historical `test-<commit>` prereleases remain
-qualification evidence and do not establish an accepted stable release.
+GitHub Actions runs `bash scripts/check.sh` on pull requests, on `main`, and on
+manual runs (`.github/workflows/check.yml`). The job checks out the repo
+read-only and uses pinned actions. On this public repository the job runs on
+`ubuntu-24.04`. A release is published only by the workflows in
+[docs/releasing.md](docs/releasing.md), and only from a retained main artifact.
 
-Stable publication requires an explicit `vMAJOR.MINOR.PATCH` tag, the exact
-successful main validation artifact, compatible declared contracts and an actual
-immutable stable baseline. The publisher independently verifies that evidence;
-successful caller jobs alone cannot establish acceptance. Missing evidence and
-first-stable bootstrap remain closed. Package qualification, coordinated consumer
-acceptance and runtime deployment remain separate.
+## Release and versioning
 
+This checkout's installable version is **0.2.0**. The stable GitHub release is
+[`v0.24.0`](https://github.com/hyperme-sh/controlplane-proto/releases/tag/v0.24.0)
+(`controlplane_proto-0.24.0`). The `next: 0.24.0` test channel publishes
+immutable `0.24.0-test.N` bundles of the wheel that main just built (today
+`controlplane_proto-0.2.0`). A test-bundle tag does not change `pyproject.toml`
+or the accepted stable release. Tags, Actions artifacts, and the records under
+`releases/` are documented in [docs/releasing.md](docs/releasing.md).
 
-### Actions qualification and stable publication
+## License
 
-Main merges and workflow completion do not publish GitHub test releases. Exact
-qualification files remain in Actions artifacts with finite retention. The pinned
-publisher independently verifies a real immutable stable baseline and refuses
-qualification snapshots, even if a caller job reports success. Existing valid
-stable records are retained; no release, version change, deployment or human
-approval prerequisite is introduced by this correction.
-
-## Test qualification and stable acceptance
-
-GitHub `test-<commit>` prereleases are development snapshots. Their embedded
-package version does not reserve a stable version. Artifact and consumer evidence
-lives under `releases/qualification`; the current wheel binding is still checked
-by package CI, alongside any future explicit stable candidate. Earlier test
-snapshot receipts are preserved there with an explicit non-stable classification.
-
-`releases/accepted` and `SPANOPTICON_RELEASE_BASELINE_SHA` are reserved for an
-actual immutable stable GitHub release. The pinned shared guard verifies the live
-release channel, stable tag source and asset digests; a test snapshot cannot
-become accepted through a provenance label. No stable baseline is recorded until
-that release exists. Stable publication remains closed without a valid baseline;
-first stable bootstrap and coordinated release qualification remain separate.
-No stable version, approval prerequisite or deployment is introduced here.
-
-
-### Published stable distribution
-
-The accepted record binds the existing immutable `v0.24.0` release to its actual
-GitHub release ID, source revision and published asset digests. Test snapshots
-remain under `releases/qualification` and do not establish stable acceptance.
-Runtime deployment and coordinated consumer acceptance remain separate.
-
-Licensed under Apache-2.0; the license is included in wheels and source archives.
-Development snapshot evidence lives under `releases/qualification`; test
-prereleases do not establish a stable baseline or reserve a version.
-
-## Coordinated test bundles
-
-This service opts into the `next: 0.24.0` train through
-[.github/test-channel.json](.github/test-channel.json). Successful main validation
-publishes its exact retained `tested-dist` files as immutable `0.24.0-test.N`
-prerelease bundles. The pinned publisher verifies the run, source revision,
-configuration and original Actions artifact digest without executing caller code
-or receiving private dependency credentials. PRs validate without publication.
-
-This test-channel authorization supersedes the older main-publication restriction
-above. Package versions, dependency pins and accepted package baselines stay
-unchanged; existing stable package admission remains separate. Coordinated
-consumer/deployment selection must bind exact component commits and artifact
-digests, not matching repository-local counters. No stable promotion is automatic.
-Private jobs use debrunners and public jobs use hosted Ubuntu; no approval gates
-are introduced. Missing original evidence or publication collisions fail closed.
+Apache-2.0. The text is [`LICENSE`](LICENSE) and is included in wheels and
+source distributions.
