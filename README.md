@@ -1,5 +1,14 @@
 # controlplane-proto
 
+## Current version authority
+
+Current development version: `0.2.0`. The services remain before the unreleased
+0.24.0 milestone. Earlier 0.24/1.0 preparation and publication notes below are
+historical and do not authorize those versions. Existing tags and historical
+artifacts remain untouched. Development uses exact source pins and rebuilt
+artifacts; no prior release is required. Version changes, tags and publication
+require the owner's explicit authorization to the agent.
+
 Python distribution of the `spanopticon.v1` ContractEcho protocol. The package
 provides `contractecho_pb2`, `contractecho_pb2_grpc`, a typing stub, and the
 `controlplane_proto_data/contractecho.proto` resource.
