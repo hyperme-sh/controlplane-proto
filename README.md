@@ -194,11 +194,9 @@ read-only and uses pinned actions. On this public repository the job runs on
 
 This checkout's installable version is **0.2.0**. The stable GitHub release is
 [`v0.24.0`](https://github.com/hyperme-sh/controlplane-proto/releases/tag/v0.24.0)
-(`controlplane_proto-0.24.0`). The `next: 0.24.0` test channel publishes
-immutable `0.24.0-test.N` bundles of the wheel that main just built (today
-`controlplane_proto-0.2.0`). A test-bundle tag does not change `pyproject.toml`
-or the accepted stable release. Tags, Actions artifacts, and the records under
-`releases/` are documented in [docs/releasing.md](docs/releasing.md).
+(`controlplane_proto-0.24.0`). Automatic package prereleases are not
+published. Tags and the records under `releases/` are documented in
+[docs/releasing.md](docs/releasing.md).
 
 ## License
 

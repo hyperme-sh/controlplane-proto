@@ -13,7 +13,7 @@ numbers advance independently and keep their accepted API contracts. Installing
 this workflow leaves recorded package versions as they are.
 
 The accepted stable record under `releases/accepted/` is line `0.24`, package
-`0.24.0`, tag `v0.24.0`. Tags, test bundles, and that record are documented in
+`0.24.0`, tag `v0.24.0`. Tags and that record are documented in
 [releasing.md](releasing.md).
 
 Before attempting a release:
@@ -52,5 +52,5 @@ Package CI rebuilds the wheel and rejects any mismatch in its version, digest,
 or exported contract before retaining publishable bytes. Stable publication
 also requires automated release admission. The downloadable release URL is
 supplied when that publication runs. Channel behavior for Actions artifacts,
-`test-<commit>` snapshots, the `v0.24.0` release, and `0.24.0-test.N` bundles
-is documented in [releasing.md](releasing.md).
+`test-<commit>` snapshots, and the `v0.24.0` release is documented in
+[releasing.md](releasing.md). Automatic package prereleases are not published.
