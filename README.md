@@ -187,15 +187,20 @@ wheel entries are rejected. What that snapshot qualifies is described in
 GitHub Actions runs `bash scripts/check.sh` on pull requests, on `main`, and on
 manual runs (`.github/workflows/check.yml`). The job checks out the repo
 read-only and uses pinned actions. On this public repository the job runs on
-`ubuntu-24.04`. A release is published only by the workflows in
-[docs/releasing.md](docs/releasing.md), and only from a retained main artifact.
+`ubuntu-24.04`; private copies use debrunners. Matching source, wheel and rebuilt-sdist
+test inventories are checked before the temporary files are removed. The result
+is recorded in the job log. CI does not upload package archives or JUnit files
+as Actions artifacts, or wrap them in source-bundle containers.
 
 ## Release and versioning
 
 This checkout's installable version is **0.2.0**. The stable GitHub release is
 [`v0.24.0`](https://github.com/hyperme-sh/controlplane-proto/releases/tag/v0.24.0)
-(`controlplane_proto-0.24.0`). Automatic package prereleases are not
-published. Tags and the records under `releases/` are documented in
+(`controlplane_proto-0.24.0`); it is a historical release, not the current
+development version. The package publisher is retired and tag-time admission
+does not publish. This library has no standalone runtime image or TEST channel;
+consuming services publish their own GHCR containers and follow moving TEST
+channels. Historical tags and release records remain unchanged. See
 [docs/releasing.md](docs/releasing.md).
 
 ## License
